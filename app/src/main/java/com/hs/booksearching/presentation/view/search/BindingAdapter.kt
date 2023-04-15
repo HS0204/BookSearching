@@ -1,12 +1,15 @@
 package com.hs.booksearching.presentation.view.search
 
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.ViewFlipper
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.hs.booksearching.R
 import com.hs.booksearching.domain.model.Book
+import com.hs.booksearching.presentation.viewModels.SearchViewModel
 import java.text.NumberFormat
 import java.util.*
 
@@ -48,5 +51,20 @@ fun TextView.setPrice(price: String) {
 fun RecyclerView.setAdapterItems(items: MutableList<Book>?) {
     items?.let {
         (adapter as BookSearchAdapter).submitList(it.toList())
+    }
+}
+
+@BindingAdapter("loadingAnimVisible")
+fun ViewFlipper.setVisibility(apiStatus: SearchViewModel.ApiStatus) {
+    when (apiStatus) {
+        SearchViewModel.ApiStatus.LOADING -> {
+            this.visibility = View.VISIBLE
+            this.startFlipping()
+            flipInterval = 250
+        }
+        else -> {
+            this.visibility = View.GONE
+            this.stopFlipping()
+        }
     }
 }

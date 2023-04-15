@@ -15,7 +15,7 @@ class SearchViewModel @Inject constructor(
     private val getBookListUseCase: GetBookListUseCase
 ) : ViewModel() {
 
-    enum class ApiStatus { LOADING, ERROR, DONE }
+    enum class ApiStatus { PREPARE, LOADING, ERROR, DONE }
 
     private val _apiStatus = MutableLiveData<ApiStatus>()
     val apiStatus: LiveData<ApiStatus> = _apiStatus
@@ -27,6 +27,10 @@ class SearchViewModel @Inject constructor(
     // 책 리스트
     private var _bookList = MutableLiveData<MutableList<Book>>()
     val bookList: LiveData<MutableList<Book>> = _bookList
+
+    init {
+        _apiStatus.value = ApiStatus.PREPARE
+    }
 
     fun setInputQuery(query: String) {
         inputQuery.value = query
