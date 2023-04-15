@@ -1,4 +1,4 @@
-package com.hs.booksearching.base
+package com.hs.booksearching.presentation.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

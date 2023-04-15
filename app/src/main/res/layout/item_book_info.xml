@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="book"
+            type="com.hs.booksearching.domain.model.Book" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_marginVertical="10dp">
+
+        <ImageView
+            android:id="@+id/item_book_img"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_launcher_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/item_book_container"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
+            bind:urlImage="@{book.image}" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/item_book_container"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/item_book_img"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/item_book_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:paddingVertical="3dp"
+                android:text="제목:"
+                app:layout_constraintBottom_toTopOf="@id/item_book_writer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                bind:bookTitle="@{book.title}" />
+
+            <TextView
+                android:id="@+id/item_book_writer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="3dp"
+                android:text="저자:"
+                app:layout_constraintBottom_toTopOf="@id/item_book_publisher"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_book_title"
+                bind:bookWriter="@{book.author}" />
+
+            <TextView
+                android:id="@+id/item_book_publisher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="3dp"
+                android:text="출판사:"
+                app:layout_constraintBottom_toTopOf="@id/item_book_price"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_book_writer"
+                bind:bookPublisher="@{book.publisher}" />
+
+            <TextView
+                android:id="@+id/item_book_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="3dp"
+                android:text="가격:"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_book_publisher"
+                bind:bookPrice="@{book.discount}" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
