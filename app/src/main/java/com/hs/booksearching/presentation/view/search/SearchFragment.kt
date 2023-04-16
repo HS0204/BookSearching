@@ -11,24 +11,32 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hs.booksearching.databinding.FragmentSearchBinding
 import com.hs.booksearching.presentation.base.BaseFragment
+import com.hs.booksearching.presentation.view.recentSearch.RecentSearchAdapter
 import com.hs.booksearching.presentation.viewModels.SearchViewModel
 
 class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding::inflate) {
 
     private lateinit var bookAdapter: Adapter
+    private lateinit var recentAdapter: RecentSearchAdapter
     private val viewModel: SearchViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.lifecycleOwner = this
-        binding.viewModel = viewModel
+        binding.bookViewModel = viewModel
 
         setAdapter()
+
+        binding.root.isClickable = true
+        binding.root.isFocusableInTouchMode = true
     }
 
     private fun setAdapter() {
-        bookAdapter = BookSearchAdapter {book ->
+        /**
+         * book search
+         */
+        bookAdapter = BookSearchAdapter { book ->
             val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(book.link))
             try {
                 requireActivity().startActivity(webIntent)
@@ -39,8 +47,25 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
 
         binding.searchingListRv.adapter = bookAdapter as BookSearchAdapter
 
-        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        binding.searchingListRv.layoutManager = layoutManager
+        val bookSearchLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        binding.searchingListRv.layoutManager = bookSearchLayoutManager
+
+        /**
+         * recent word
+         */
+        recentAdapter = RecentSearchAdapter(
+            onSearchClicked = { searchWordItem ->
+                viewModel.setInputQuery(searchWordItem.searchKeyWord)
+                viewModel.setOnClick()
+            },
+            onDeleteClicked = { searchWordItem ->
+                viewModel.deleteWord(searchWordItem.searchKeyWord)
+            }
+        )
+
+        binding.searchingRecentWordListRv.adapter = recentAdapter
+        val recentWordLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
+        binding.searchingRecentWordListRv.layoutManager = recentWordLayoutManager
     }
 
 }

@@ -1,4 +1,4 @@
-package com.hs.booksearching.data.searching
+package com.hs.booksearching.data.repositories.search
 
 import com.hs.booksearching.data.model.BookSearch.BookSearchResponse
 

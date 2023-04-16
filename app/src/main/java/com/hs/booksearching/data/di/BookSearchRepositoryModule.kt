@@ -1,7 +1,7 @@
 package com.hs.booksearching.data.di
 
 import com.hs.booksearching.data.repositories.BookSearchRepositoryImpl
-import com.hs.booksearching.data.searching.BookRemoteDataSource
+import com.hs.booksearching.data.repositories.search.BookRemoteDataSource
 import com.hs.booksearching.domain.repositories.BookSearchRepository
 import dagger.Module
 import dagger.Provides

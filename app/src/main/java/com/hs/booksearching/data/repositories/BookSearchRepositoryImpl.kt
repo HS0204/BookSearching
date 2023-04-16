@@ -1,9 +1,8 @@
 package com.hs.booksearching.data.repositories
 
 import com.hs.booksearching.domain.model.Book
-import com.hs.booksearching.data.searching.BookRemoteDataSource
+import com.hs.booksearching.data.repositories.search.BookRemoteDataSource
 import com.hs.booksearching.domain.repositories.BookSearchRepository
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class BookSearchRepositoryImpl @Inject constructor(

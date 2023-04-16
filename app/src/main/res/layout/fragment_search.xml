@@ -7,12 +7,12 @@
     <data>
 
         <variable
-            name="viewModel"
+            name="bookViewModel"
             type="com.hs.booksearching.presentation.viewModels.SearchViewModel" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/search_cl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="10dp"
@@ -29,7 +29,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            bind:loadingAnimVisible="@{viewModel.apiStatus}">
+            bind:loadingAnimVisible="@{bookViewModel.apiStatus}">
 
             <View
                 android:layout_width="10dp"
@@ -68,8 +68,10 @@
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="5"
-                android:afterTextChanged="@{(input) -> viewModel.setInputQuery(input.toString())}"
-                android:inputType="text" />
+                android:afterTextChanged="@{(input) -> bookViewModel.setInputQuery(input.toString())}"
+                android:inputType="text"
+                android:text="@{bookViewModel.inputQuery}"
+                bind:onFocusChanged="@{bookViewModel}" />
 
             <Button
                 android:id="@+id/searching_input_btn"
@@ -77,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_weight="1"
-                android:onClick="@{()->viewModel.requestBookList()}"
+                android:onClick="@{() -> bookViewModel.setOnClick()}"
                 android:text="검색" />
 
         </LinearLayout>
@@ -93,8 +95,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/searching_input_container"
             app:layout_constraintVertical_bias="0"
-            bind:setBookList="@{viewModel.bookList}"
+            bind:setBookList="@{bookViewModel.bookList}"
             tools:listitem="@layout/item_book_info" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/searching_recent_word_list_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingHorizontal="10dp"
+            app:layout_constraintEnd_toEndOf="@id/searching_input_container"
+            app:layout_constraintStart_toStartOf="@id/searching_input_container"
+            app:layout_constraintTop_toBottomOf="@id/searching_input_container"
+            bind:isVisible="@{bookViewModel.hasFocus}"
+            bind:setRecentWordList="@{bookViewModel.recentWordList}"
+            tools:listitem="@layout/item_recent_word" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
