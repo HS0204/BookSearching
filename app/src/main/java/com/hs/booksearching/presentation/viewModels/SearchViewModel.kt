@@ -1,9 +1,11 @@
 package com.hs.booksearching.presentation.viewModels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import com.hs.booksearching.data.repositories.paging.PagingDataSourceImpl
 import com.hs.booksearching.domain.model.Book
 import com.hs.booksearching.domain.model.SearchWordItem
 import com.hs.booksearching.domain.usecase.*
@@ -27,16 +29,16 @@ class SearchViewModel @Inject constructor(
 
     // 검색어
     val inputQuery = MutableLiveData<String>()
-    private var _query: String = ""
-
-    // 책 리스트
-    private var _bookList = MutableLiveData<MutableList<Book>>()
-    val bookList: LiveData<MutableList<Book>> = _bookList
 
     // 최근 검색어
     private var _recentWordList: Flow<List<SearchWordItem>> = getAllWordUseCase.excute()
     val recentWordList = _recentWordList
     val hasFocus = MutableLiveData<Boolean>()
+
+    // 책 리스트
+    val bookList: LiveData<PagingData<Book>> = inputQuery.switchMap { query ->
+        requestBookList(query).asLiveData()
+    }
 
     init {
         _apiStatus.value = ApiStatus.PREPARE
@@ -59,23 +61,12 @@ class SearchViewModel @Inject constructor(
         onFocusChanged(false)
     }
 
-    private fun requestBookList(query: String) {
-        viewModelScope.launch {
-            _apiStatus.value = ApiStatus.LOADING
-
-            try {
-                _query = query
-                val bookListResponse = getBookListUseCase.excute(_query, "sim")
-                if (bookListResponse.isNotEmpty()) {
-                    _bookList.value = bookListResponse as ArrayList<Book>
-                }
-
-                _apiStatus.value = ApiStatus.DONE
-            } catch (e: Exception) {
-                _apiStatus.value = ApiStatus.ERROR
-            }
-
-        }
+    private fun requestBookList(query: String): Flow<PagingData<Book>> {
+        return Pager(
+            PagingConfig(pageSize = 10)
+        ) {
+            PagingDataSourceImpl(getBookListUseCase, query)
+        }.flow.cachedIn(viewModelScope)
     }
 
     private fun insertWord(word: String) {

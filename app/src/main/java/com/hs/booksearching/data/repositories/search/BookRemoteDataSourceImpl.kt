@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class BookRemoteDataSourceImpl @Inject constructor(private val apiService: BookSearchInterface):
     BookRemoteDataSource {
-    override suspend fun getBookList(query: String, sort: String): BookSearchResponse {
-        return apiService.getBookList(query = query, sort =  sort)
+    override suspend fun getBookList(query: String, sort: String, start: Int): BookSearchResponse {
+        return apiService.getBookList(query = query, sort =  sort, start = start)
     }
 }

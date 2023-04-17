@@ -6,9 +6,9 @@ import com.hs.booksearching.domain.repositories.BookSearchRepository
 import javax.inject.Inject
 
 class BookSearchRepositoryImpl @Inject constructor(
-    private val bookRemoteDataSource: BookRemoteDataSource
+    private val bookRemoteDataSource: BookRemoteDataSource,
 ): BookSearchRepository {
-    override suspend fun getBookList(query: String, sort: String): List<Book> {
-        return bookRemoteDataSource.getBookList(query = query, sort = sort).books
+    override suspend fun getBookList(query: String, sort: String, start: Int): List<Book> {
+        return bookRemoteDataSource.getBookList(query = query, sort = sort, start = start).books
     }
 }

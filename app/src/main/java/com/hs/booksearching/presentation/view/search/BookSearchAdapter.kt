@@ -1,20 +1,16 @@
 package com.hs.booksearching.presentation.view.search
 
-import android.database.DataSetObserver
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
 import androidx.databinding.DataBindingUtil
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hs.booksearching.R
 import com.hs.booksearching.databinding.ItemBookInfoBinding
 import com.hs.booksearching.domain.model.Book
 
-class BookSearchAdapter(private val onItemClicked: (Book) -> Unit) : ListAdapter<Book, BookSearchAdapter.ViewHolder>(DiffCallback),
-    Adapter {
+class BookSearchAdapter(private val onItemClicked: (Book) -> Unit) : PagingDataAdapter<Book, BookSearchAdapter.ViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: ItemBookInfoBinding = DataBindingUtil.inflate(
@@ -27,41 +23,17 @@ class BookSearchAdapter(private val onItemClicked: (Book) -> Unit) : ListAdapter
             binding.root.setOnClickListener { view ->
                 val position = adapterPosition.takeIf { it != RecyclerView.NO_POSITION }
                     ?: return@setOnClickListener
-                onItemClicked(getItem(position))
+                getItem(position)?.let { onItemClicked(it) }
             }
         }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
-    }
-
-    override fun registerDataSetObserver(observer: DataSetObserver?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun unregisterDataSetObserver(observer: DataSetObserver?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun getCount(): Int {
-        return itemCount
-    }
-
-    override fun getItem(position: Int): Book {
-        return super.getItem(position)
-    }
-
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        throw UnsupportedOperationException("Not implemented")
-    }
-
-    override fun getViewTypeCount(): Int {
-        throw UnsupportedOperationException("Not implemented")
-    }
-
-    override fun isEmpty(): Boolean {
-        throw UnsupportedOperationException("Not implemented")
+        getItem(position).let {
+            if (it != null) {
+                holder.bind(it)
+            }
+        }
     }
 
     class ViewHolder(private val binding: ItemBookInfoBinding) :
@@ -69,7 +41,7 @@ class BookSearchAdapter(private val onItemClicked: (Book) -> Unit) : ListAdapter
 
         fun bind(book: Book) {
             binding.book = book
-
+            binding.executePendingBindings()
         }
     }
 
