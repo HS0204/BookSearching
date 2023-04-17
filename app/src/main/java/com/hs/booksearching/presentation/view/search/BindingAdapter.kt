@@ -1,13 +1,10 @@
 package com.hs.booksearching.presentation.view.search
 
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.ViewFlipper
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.hs.booksearching.R
-import com.hs.booksearching.presentation.viewModels.SearchViewModel
 import java.text.NumberFormat
 import java.util.*
 
@@ -44,12 +41,3 @@ fun TextView.setPrice(price: String) {
     val formattedPrice = "가격: ${formatter.format(price.toDoubleOrNull() ?: 0.0)}원"
     this.text = formattedPrice
 }
-
-/*
-@BindingAdapter("setBookList")
-fun RecyclerView.setAdapterItems(items: MutableList<Book>?) {
-    items?.let {
-        (adapter as BookSearchAdapter).submitData(it.toList())
-    }
-}
- */

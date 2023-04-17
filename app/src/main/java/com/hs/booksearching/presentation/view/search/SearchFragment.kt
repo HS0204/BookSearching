@@ -13,6 +13,7 @@ import com.hs.booksearching.presentation.base.BaseFragment
 import com.hs.booksearching.presentation.view.recentSearch.RecentSearchAdapter
 import com.hs.booksearching.presentation.viewModels.SearchViewModel
 
+
 class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding::inflate) {
 
     private lateinit var bookAdapter: BookSearchAdapter
@@ -26,9 +27,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
         binding.bookViewModel = viewModel
 
         setAdapter()
-
-        binding.root.isClickable = true
-        binding.root.isFocusableInTouchMode = true
 
         viewModel.bookList.observe(viewLifecycleOwner) {
             bookAdapter.submitData(viewLifecycleOwner.lifecycle, it)
@@ -50,7 +48,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
                 }
             })
 
-        binding.searchingListRv.adapter = bookAdapter as BookSearchAdapter
+        binding.searchingListRv.adapter = bookAdapter
 
         val bookSearchLayoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
