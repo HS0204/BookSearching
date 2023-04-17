@@ -71,7 +71,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
 
         binding.searchingRecentWordListRv.adapter = recentAdapter
         val recentWordLayoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.searchingRecentWordListRv.layoutManager = recentWordLayoutManager
     }
 

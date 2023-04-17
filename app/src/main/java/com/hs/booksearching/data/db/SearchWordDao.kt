@@ -12,7 +12,7 @@ interface SearchWordDao {
     @Insert(onConflict = REPLACE)
     suspend fun insertWord(word: SearchWordEntity)
 
-    @Query("SELECT * FROM recentSearchWord")
+    @Query("SELECT * FROM recentSearchWord ORDER BY date DESC LIMIT 10")
     fun getAllWord(): Flow<List<SearchWordEntity>>
 
     @Query("DELETE FROM recentSearchWord WHERE searchKeyWord = :keyWord")
