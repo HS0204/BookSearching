@@ -22,11 +22,6 @@ class SearchViewModel @Inject constructor(
     private val getAllWordUseCase: GetAllSearchWordUseCase,
 ) : ViewModel() {
 
-    enum class ApiStatus { PREPARE, LOADING, ERROR, DONE }
-
-    private val _apiStatus = MutableLiveData<ApiStatus>()
-    val apiStatus: LiveData<ApiStatus> = _apiStatus
-
     // 검색어
     val inputQuery = MutableLiveData<String>()
 
@@ -38,10 +33,6 @@ class SearchViewModel @Inject constructor(
     // 책 리스트
     val bookList: LiveData<PagingData<Book>> = inputQuery.switchMap { query ->
         requestBookList(query).asLiveData()
-    }
-
-    init {
-        _apiStatus.value = ApiStatus.PREPARE
     }
 
     fun onFocusChanged(hasFocus: Boolean) {

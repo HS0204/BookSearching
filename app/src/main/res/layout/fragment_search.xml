@@ -18,41 +18,6 @@
         android:paddingHorizontal="10dp"
         tools:context=".presentation.view.search.SearchFragment">
 
-        <ViewFlipper
-            android:id="@+id/search_loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inAnimation="@anim/fade_in"
-            android:outAnimation="@anim/fade_out"
-            android:padding="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            bind:loadingAnimVisible="@{bookViewModel.apiStatus}">
-
-            <View
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:background="@drawable/baseline_circle_24"
-                android:backgroundTint="@color/purple_500" />
-
-            <View
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_marginStart="13dp"
-                android:background="@drawable/baseline_circle_24"
-                android:backgroundTint="@color/purple_200" />
-
-            <View
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_marginStart="26dp"
-                android:background="@drawable/baseline_circle_24"
-                android:backgroundTint="@color/purple_500" />
-
-        </ViewFlipper>
-
         <LinearLayout
             android:id="@+id/searching_input_container"
             android:layout_width="match_parent"

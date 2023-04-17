@@ -52,19 +52,4 @@ fun RecyclerView.setAdapterItems(items: MutableList<Book>?) {
         (adapter as BookSearchAdapter).submitData(it.toList())
     }
 }
-
  */
-@BindingAdapter("loadingAnimVisible")
-fun ViewFlipper.setVisibility(apiStatus: SearchViewModel.ApiStatus) {
-    when (apiStatus) {
-        SearchViewModel.ApiStatus.LOADING -> {
-            this.visibility = View.VISIBLE
-            this.startFlipping()
-            flipInterval = 250
-        }
-        else -> {
-            this.visibility = View.GONE
-            this.stopFlipping()
-        }
-    }
-}
