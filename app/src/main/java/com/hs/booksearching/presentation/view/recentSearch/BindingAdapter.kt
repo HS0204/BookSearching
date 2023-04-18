@@ -18,7 +18,7 @@ fun RecyclerView.setAdapterItems(items: Flow<List<SearchWordItem>>?) {
             (adapter as RecentSearchAdapter).submitList(list)
         }
     } ?: run {
-        // items가 null일 경우 처리할 코드 작성
+        this.visibility = View.GONE
     }
 }
 

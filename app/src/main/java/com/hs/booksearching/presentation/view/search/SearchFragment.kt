@@ -7,11 +7,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hs.booksearching.databinding.FragmentSearchBinding
 import com.hs.booksearching.presentation.base.BaseFragment
 import com.hs.booksearching.presentation.view.recentSearch.RecentSearchAdapter
 import com.hs.booksearching.presentation.viewModels.SearchViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 
 class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding::inflate) {
@@ -28,8 +31,13 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
 
         setAdapter()
 
-        viewModel.bookList.observe(viewLifecycleOwner) {
-            bookAdapter.submitData(viewLifecycleOwner.lifecycle, it)
+        binding.searchingInputBtn.setOnClickListener {
+            lifecycleScope.launch {
+                viewModel.setOnClick()
+                viewModel.requestBookList().collectLatest { pagingData ->
+                    bookAdapter.submitData(pagingData)
+                }
+            }
         }
     }
 

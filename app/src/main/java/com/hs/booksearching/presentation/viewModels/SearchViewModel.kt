@@ -30,11 +30,6 @@ class SearchViewModel @Inject constructor(
     val recentWordList = _recentWordList
     val hasFocus = MutableLiveData<Boolean>()
 
-    // 책 리스트
-    val bookList: LiveData<PagingData<Book>> = inputQuery.switchMap { query ->
-        requestBookList(query).asLiveData()
-    }
-
     fun onFocusChanged(hasFocus: Boolean) {
         this.hasFocus.value = hasFocus
     }
@@ -47,16 +42,15 @@ class SearchViewModel @Inject constructor(
         val query = inputQuery.value
         if (query.isNullOrEmpty()) return
 
-        requestBookList(query)
         insertWord(query)
         onFocusChanged(false)
     }
 
-    private fun requestBookList(query: String): Flow<PagingData<Book>> {
+    fun requestBookList(): Flow<PagingData<Book>> {
         return Pager(
             PagingConfig(pageSize = 10)
         ) {
-            PagingDataSourceImpl(getBookListUseCase, query)
+            PagingDataSourceImpl(getBookListUseCase, inputQuery.value!!)
         }.flow.cachedIn(viewModelScope)
     }
 
