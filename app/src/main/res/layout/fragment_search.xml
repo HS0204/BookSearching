@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="bookViewModel"
+            type="com.hs.booksearching.presentation.viewModels.SearchViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/search_cl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="10dp"
+        tools:context=".presentation.view.search.SearchFragment">
+
+        <LinearLayout
+            android:id="@+id/searching_input_container"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/searching_input_query"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="5"
+                android:afterTextChanged="@{(input) -> bookViewModel.setInputQuery(input.toString())}"
+                android:inputType="text"
+                android:text="@{bookViewModel.inputQuery}"
+                bind:onFocusChanged="@{bookViewModel}" />
+
+            <Button
+                android:id="@+id/searching_input_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:text="검색" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/searching_list_rv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:clipToPadding="false"
+            android:paddingHorizontal="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/searching_input_container"
+            app:layout_constraintVertical_bias="0"
+            tools:listitem="@layout/item_book_info" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/searching_recent_word_list_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingHorizontal="10dp"
+            app:layout_constraintEnd_toEndOf="@id/searching_input_container"
+            app:layout_constraintStart_toStartOf="@id/searching_input_container"
+            app:layout_constraintTop_toBottomOf="@id/searching_input_container"
+            bind:isVisible="@{bookViewModel.hasFocus}"
+            bind:setRecentWordList="@{bookViewModel.recentWordList}"
+            tools:listitem="@layout/item_recent_word" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
